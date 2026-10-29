@@ -1,0 +1,6 @@
+{
+  "name": "ArabiyaHub - Belajar Bahasa Arab Interaktif",
+  "description": "Platform pembelajaran bahasa Arab interaktif lengkap dengan Firebase Auth Google Login, AI Ustadz Tutor (Gemini), Pemeriksa Harakat & I'rab, Latihan Mufrodat, dan Portal Admin.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

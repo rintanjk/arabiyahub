@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with learning statistics and settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name", "maxLength": 100 },
+        "photoURL": { "type": "string", "description": "User avatar URL" },
+        "xp": { "type": "number", "description": "Experience points accumulated" },
+        "level": { "type": "number", "description": "User proficiency level (1-50)" },
+        "streak": { "type": "number", "description": "Continuous days active streak" },
+        "lastActiveDate": { "type": "string", "description": "ISO date string of last activity" },
+        "role": { "type": "string", "enum": ["student", "admin"], "description": "User authorization role" },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Account update timestamp" }
+      },
+      "required": ["uid", "email", "displayName"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Lesson and quiz completion progress tracking",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner UID" },
+        "lessonId": { "type": "string", "description": "Identifier of the lesson", "maxLength": 64 },
+        "completed": { "type": "boolean", "description": "Completion state" },
+        "score": { "type": "number", "description": "Score achieved in percentage or points" },
+        "attempts": { "type": "number", "description": "Number of quiz attempts" },
+        "completedAt": { "type": "string", "description": "Timestamp when finished" },
+        "updatedAt": { "type": "string", "description": "Timestamp of last update" }
+      },
+      "required": ["userId", "lessonId", "completed"]
+    },
+    "SavedVocabulary": {
+      "title": "SavedVocabulary",
+      "description": "Custom flashcards and saved vocabulary for the user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner UID" },
+        "arabicWord": { "type": "string", "description": "Arabic script word", "maxLength": 100 },
+        "transliteration": { "type": "string", "description": "Pronunciation in Latin letters", "maxLength": 150 },
+        "indonesianMeaning": { "type": "string", "description": "Translation in Indonesian", "maxLength": 200 },
+        "category": { "type": "string", "description": "Category like Kata Benda, Kata Kerja, Percakapan", "maxLength": 50 },
+        "masteryLevel": { "type": "number", "description": "Spaced repetition mastery level 1-5" },
+        "notes": { "type": "string", "description": "User notes or sample sentence", "maxLength": 500 },
+        "createdAt": { "type": "string", "description": "Timestamp of bookmarking" }
+      },
+      "required": ["userId", "arabicWord", "indonesianMeaning"]
+    },
+    "AdminBroadcast": {
+      "title": "AdminBroadcast",
+      "description": "Daily Arabic word of the day and tips posted by admin",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Announcement title", "maxLength": 100 },
+        "content": { "type": "string", "description": "Arabic phrase, quote, or grammar tip", "maxLength": 1000 },
+        "arabic": { "type": "string", "description": "Main Arabic text", "maxLength": 300 },
+        "author": { "type": "string", "description": "Admin author", "maxLength": 50 },
+        "updatedAt": { "type": "string", "description": "Timestamp of update" }
+      },
+      "required": ["title", "content"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document storing level, XP, streak, and role"
+    },
+    "/users/{userId}/progress/{lessonId}": {
+      "schema": "UserProgress",
+      "description": "Subcollection tracking progress per lesson for a specific user"
+    },
+    "/users/{userId}/vocabulary/{vocabId}": {
+      "schema": "SavedVocabulary",
+      "description": "Subcollection of saved vocabulary words for spaced repetition"
+    },
+    "/broadcasts/{broadcastId}": {
+      "schema": "AdminBroadcast",
+      "description": "Global broadcasts and daily Arabic word manageable by admin"
+    }
+  }
+}
